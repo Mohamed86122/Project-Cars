@@ -1,3 +1,11 @@
+<?php
+   session_start();
+   if(@$_SESSION["autoriser"]!="oui")
+   {
+      header("location:../CLIENT/form-login.php");
+      exit();
+   }
+?>
 <!DOCTYPE html>
 <html lang="en">
    <head>
@@ -56,7 +64,7 @@
             <div class="row d_flex">
                <div class="col-md-12">
                   <div class="text_bd">
-                     <h1>Find Best car Here </h1>
+                     <h1>Bonjour <?php echo $_SESSION["FULL_NAME"]; ?></h1>
                      <span>Information of Car</span>
                      <p>
                            Car Base is all about creating a powerful website for you who are looking for or interested in cars! This is a work in progress. Join Car base and upload your car photos to share them to other car enthusiasts. Soon you will be able to compete for various spot awards                       

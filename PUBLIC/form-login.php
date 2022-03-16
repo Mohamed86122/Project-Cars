@@ -1,6 +1,5 @@
 <?php 
     error_reporting(0);
-    session_start();
     try{
         $database = new PDO('mysql:host=localhost;dbname=cars;charset=UTF8;','root','');
         $database ->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
@@ -11,33 +10,23 @@
     }
     $mail = $_POST['email'];
     $password = $_POST['password'];
-    $validation = $_POST['valider'];
+    $validation = $_POST['submit'];
     $message ="";
-
     if(isset($validation))
     {
-        if(empty ($mail)) $message.="<li>Put Your Mail!</li>";
-        if(empty ($password)) $message.="<li>Put Your password!</li>";
-        // if(isset($check))$message.="<li>Please Agree !</li>";
-        
-        if(empty($message))
+        $req=$database->prepare("select Id_client from client Where Mail=? and password limit 1");
+        $req->setFetchMode(PDO::FETCH_ASSOC);
+        $req->execute(array($mail,md5($password)));
+        $tab =$req ->fetchAll();
+        if(count($tab)==0)
         {
-            $req=$database->prepare("select Id_client from client Where Mail=? and password=? limit 1");
-            $req->setFetchMode(PDO::FETCH_ASSOC);
-            $req->execute(array($mail,md5($password)));
-            $tab =$req ->fetchAll();
-            if(count($tab)==0)
-            {
+            $message="<div>Failed Login and password </div>";
+        }
+        else
+        {
+            $_SESSION["autoriser"]="";
+            $_SESSION["FULL_NAME"]=$tab[0]['Full_Name'];
 
-                $message="<li>Failed Login and password </li>";
-            }
-            else
-            {
-                $_SESSION["autoriser"]="oui";
-                $_SESSION["FULL_NAME"]=strtoupper($tab[0]['Mail']) ;
-                header('location:../PUBLIC/index.php');
-
-            }
         }
     }
 ?>
@@ -82,18 +71,19 @@
                     <div class="form-row">
                         <label>
                             <span>Email</span>
-                            <input type="email" name="email" >
-                        </label>
-                    </div>
-                    <div class="form-row">
-                        <label>
-                            <span>Password</span>
-                            <input type="password" name="password">
+                            <input type="email" name="email" required>
                         </label>
                     </div>
 
                     <div class="form-row">
-                        <button type="submit" name="valider">Log in</button>
+                        <label>
+                            <span>Password</span>
+                            <input type="password" name="password" required>
+                        </label>
+                    </div>
+
+                    <div class="form-row">
+                        <button type="submit" name="submit">Log in</button>
                     </div>
                     <div>
                         <ul>
@@ -108,7 +98,7 @@
 
             </div>
 
-            <div class="form-sign-in-with-social">
+            <!-- <div class="form-sign-in-with-social">
 
                 <div class="form-row form-title-row">
                     <span class="form-title">Sign in with</span>
@@ -118,7 +108,7 @@
                 <a href="#" class="form-facebook-button">Facebook</a>
                 <a href="#" class="form-twitter-button">Twitter</a>
 
-            </div>
+            </div> -->
 
         </form>
 

@@ -27,7 +27,7 @@
             
             if(empty($message))
             {
-                $url = "../PUBLIC/index.php";
+                $url = "form-login.php";
                 $req=$database->prepare("select Id_client from client Where Mail=? limit 1");
                 $req->setFetchMode(PDO::FETCH_ASSOC);
                 $req->execute(array($mail));

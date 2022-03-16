@@ -53,6 +53,7 @@
                      </div>
                   </div>
                   <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9">
+                  
                      <nav class="navi navbar navbar-expand-md navbar-dark ">
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
@@ -71,9 +72,10 @@
                               <li class="nav-item">
                                  <a class="nav-link" href="#contactus">Contact us</a>
                               </li>
-                           </ul>
-                           <div class="Login"><a href="form-login.php">Login</a></div>
-                           <div class="sign"><a href="form-register.php">Sign Up</a></div>
+                              <li class="nav-item">
+                                 <a class="nav-link" href="">Bonjour </a>
+                              </li>
+                           </ul> 
                            <div class="search-box">
                               <input type="text" placeholder=" "/><span></span>
                            </div> 
