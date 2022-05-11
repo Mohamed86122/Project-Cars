@@ -1,12 +1,3 @@
-<!-- <?php 
-   //  session_start();
-  
-   //  if(!$_SESSION['id']){
-   //      header('location:login.php');
-   //  }
-
-    
-?> -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,21 +13,21 @@
       <meta name="description" content="">
       <meta name="author" content="">
       <!-- bootstrap css -->
-      <link rel="stylesheet" href="css/bootstrap.min.css">
+      <link rel="stylesheet" href="../CLIENT/css/bootstrap.min.css">
       <!-- style css -->
       <!-- Responsive-->
-      <link rel="stylesheet" href="css/responsive.css">
+      <link rel="stylesheet" href="../CLIENT/css/responsive.css">
       <style>   
          <?php 
-               include('css/style.css');  
-               include('css/responsive.css');  
-               include('css/jquery.mCustomScrollbar.min..css');  
+               include('../CLIENT/css/style.css');  
+               include('../CLIENT/css/responsive.css');  
+               include('../CLIENT/css/jquery.mCustomScrollbar.min..css');  
          ?>  
       </style>
       <!-- fevicon -->
 
       <!-- Scrollbar Custom CSS -->
-      <link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css">
+      <link rel="stylesheet" href="../CLIENT/css/jquery.mCustomScrollbar.min.css">
       <!-- Tweaks for older IEs-->
       <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
@@ -56,7 +47,7 @@
                      <div class="full">
                         <div class="center-desk">
                            <div class="logo">
-                              <a href="index.php"><img src="images/Sans titre.png" alt="#" /></a>
+                              <a href=""><img src="../CLIENT/images/Sans titre.png" alt="#" /></a>
                            </div>
                         </div>
                      </div>
@@ -67,31 +58,8 @@
                         <span class="navbar-toggler-icon"></span>
                         </button>
                         <div class="collapse navbar-collapse" id="navbarsExample04">
-                           <ul class="navbar-nav mr-auto">
-                              <li class="nav-item">
-                                 <a class="nav-link" href="index.php ">Home</a>
-                              </li>
-                              <li class="nav-item">
-                                 <a class="nav-link" href="catalog.php">Cars</a>
-                              </li>
-                              <li class="nav-item">
-                                 <!-- <div class="nav-link" href="">Welcome <?php //echo ucfirst($_SESSION['first_name']); ?></div> -->
-                              </li>
-                              
-                              <!-- <a href="logout.php?logout=true">Logout</a> -->
-                              <!-- <!-- <li class="nav-item">
-                                 <a class="nav-link" href="index.php?id=#about">About</a>
-                              </li> -->
-                              <li class="nav-item">
-                                 <a class="nav-link" href="logout.php">Logout</a>
-                              </li> 
-                           </ul>
-                           
-                           <div class="Login"><a href="form-login.php">Login</a></div>
-                           <div class="sign"><a href="form-register.php">Sign Up</a></div>
-                           <div class="search-box">
-                              <input type="text" placeholder=" "/><span></span>
-                           </div> 
+                           <div class="Login"><a href="">ADMIN SERVICE</a></div>
+                           <div class="Login"><a href="">ADD ITEMS</a></div>
                         </div>
                      </nav>
                   </div>

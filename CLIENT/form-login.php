@@ -1,46 +1,56 @@
 <?php 
     error_reporting(0);
-    session_start();
-    try{
-        $database = new PDO('mysql:host=localhost;dbname=cars;charset=UTF8;','root','');
-        $database ->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-    }
-    catch (Exception $e) {
-
-       die('Error'." ".$e->getMessage());
-    }
-    $mail = $_POST['email'];
-    $password = $_POST['password'];
-    $validation = $_POST['valider'];
-    $message ="";
-
-    if(isset($validation))
-    {
-        if(empty ($mail)) $message.="<li>Put Your Mail!</li>";
-        if(empty ($password)) $message.="<li>Put Your password!</li>";
-        // if(isset($check))$message.="<li>Please Agree !</li>";
-        
-        if(empty($message))
-        {
-            $req=$database->prepare("select Id_client from client Where Mail=? and password=? limit 1");
-            $req->setFetchMode(PDO::FETCH_ASSOC);
-            $req->execute(array($mail,md5($password)));
-            $tab =$req ->fetchAll();
-            if(count($tab)==0)
-            {
-
-                $message="<li>Failed Login and password </li>";
-            }
-            else
-            {
-                $_SESSION["autoriser"]="oui";
-                $_SESSION["FULL_NAME"]=strtoupper($tab[0]['Mail']) ;
-                header('location:../PUBLIC/index.php');
-
-            }
-        }
-    }
-?>
+    
+    // session_start();
+    // require_once('config.php');
+    
+    // if(isset($_POST['submit']))
+    // {
+    //     if(isset($_POST['email'],$_POST['password']) && !empty($_POST['email']) && !empty($_POST['password']))
+    //     {
+    //         $email = trim($_POST['email']);
+    //         $password = trim($_POST['password']);
+    
+    //         if(filter_var($email, FILTER_VALIDATE_EMAIL))
+    //         {
+    //             $sql = "select * from members where email = :email ";
+    //             $handle = $pdo->prepare($sql);
+    //             $params = ['email'=>$email];
+    //             $handle->execute($params);
+    //             if($handle->rowCount() > 0)
+    //             {
+    //                 $getRow = $handle->fetch(PDO::FETCH_ASSOC);
+    //                 if(password_verify($password, $getRow['password']))
+    //                 {
+    //                     unset($getRow['password']);
+    //                     $_SESSION = $getRow;
+    //                     header('location:index.php');
+    //                     exit();
+    //                 }
+    //                 else
+    //                 {
+    //                     $errors[] = "Wrong Email or Password";
+    //                 }
+    //             }
+    //             else
+    //             {
+    //                 $errors[] = "Wrong Email or Password";
+    //             }
+                
+    //         }
+    //         else
+    //         {
+    //             $errors[] = "Email address is not valid";	
+    //         }
+    
+    //     }
+    //     else
+    //     {
+    //         $errors[] = "Email and Password are required";	
+    //     }
+    
+    // }
+    ?>
 <!DOCTYPE html>
 <html>
 
@@ -69,7 +79,7 @@
 
         <!-- You only need this form and the form-login.css -->
 
-        <form class="form-login" method="post">
+        <form class="form-login" method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
 
             <div class="form-log-in-with-email">
 
@@ -78,7 +88,15 @@
                     <div class="form-title-row">
                         <h1>Log in</h1>
                     </div>
-
+                    <?php 
+                        if(isset($errors) && count($errors) > 0)
+                        {
+                            foreach($errors as $error_msg)
+                            {
+                                echo '<div class="alert alert-danger">'.$error_msg.'</div>';
+                            }
+                        }
+                    ?>
                     <div class="form-row">
                         <label>
                             <span>Email</span>
@@ -124,7 +142,7 @@
 
     </div>
     <?php include('footer.php');?> 
-
+    <!-- <script>alert(<?php $_SESSION["FULL_NAME"] ?>)</script> -->
 </body>
 
 </html>

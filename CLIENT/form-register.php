@@ -1,55 +1,107 @@
 <?php 
     error_reporting(0);
-    try{
-        $database = new PDO('mysql:host=localhost;dbname=cars;charset=UTF8;','root','');
-        $database ->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-    }
-    catch (Exception $e) {
-
-       die('Error'." ".$e->getMessage());
-    }
-
-    $Nom = $_POST['name'];
-    $mail = $_POST['email'];
-    $password = $_POST['password'];
-    $submit = $_POST['btn'];
-    $confirm = $_POST['confirmation'];
-    // $check = $_POST['checkbox'];
-    $message ="";
+    // session_start();
+    // require_once('../config.php');
     
-        if(isset($submit))
-        {
-            if(empty ($Nom)) $message="<li>invalid name!</li>";
-            if(empty ($mail)) $message.="<li>invalid mail!</li>";
-            if(empty ($password)) $message.="<li>invalid password!</li>";
-            if($password!=$confirm) $message.="<li>Please enter your password correctly !</li>";
-            // if(isset($check))$message.="<li>Please Agree !</li>";
+    // if(isset($_POST['submit']))
+    // {
+    //     if(isset($_POST['first_name'],$_POST['last_name'],$_POST['email'],$_POST['password']) && !empty($_POST['first_name']) && !empty($_POST['last_name']) && !empty($_POST['email']) && !empty($_POST['password']))
+    //     {
+    //         $firstName = trim($_POST['first_name']);
+    //         $lastName = trim($_POST['last_name']);
+    //         $email = trim($_POST['email']);
+    //         $password = trim($_POST['password']);
             
-            if(empty($message))
-            {
-                $url = "../PUBLIC/index.php";
-                $req=$database->prepare("select Id_client from client Where Mail=? limit 1");
-                $req->setFetchMode(PDO::FETCH_ASSOC);
-                $req->execute(array($mail));
-                $tab =$req ->fetchAll();
-                if(count($tab)>0)
-                {
-                    echo "<script> alert('Mail is already existed !')</script>";
-                    header("Location: $url");
-
-
-
-                }
-                else
-                {
-                    $insert =$database->prepare("INSERT INTO client(Full_Name,Mail,password) VALUES (?,?,?)");
-                    $insert->execute(array($Nom,$mail,md5($password)));
-                    // include('notification.php');
-                    sleep(4);
-                    header("url: $url");  
-                }
-            }
-        }
+    //         $options = array("cost"=>4);
+    //         $hashPassword = password_hash($password,PASSWORD_BCRYPT,$options);
+    //         $date = date('Y-m-d H:i:s');
+    
+    //         if(filter_var($email, FILTER_VALIDATE_EMAIL))
+    //         {
+    //             $sql = 'select * from members where email = :email';
+    //             $stmt = $pdo->prepare($sql);
+    //             $p = ['email'=>$email];
+    //             $stmt->execute($p);
+                
+    //             if($stmt->rowCount() == 0)
+    //             {
+    //                 $sql = "insert into members (first_name, last_name, email, `password`, created_at,updated_at) values(:fname,:lname,:email,:pass,:created_at,:updated_at)";
+                
+    //                 try{
+    //                     $handle = $pdo->prepare($sql);
+    //                     $params = [
+    //                         ':fname'=>$firstName,
+    //                         ':lname'=>$lastName,
+    //                         ':email'=>$email,
+    //                         ':pass'=>$hashPassword,
+    //                         ':created_at'=>$date,
+    //                         ':updated_at'=>$date
+    //                     ];
+                        
+    //                     $handle->execute($params);
+                        
+    //                     $success = 'User has been created successfully';
+                        
+    //                 }
+    //                 catch(PDOException $e){
+    //                     $errors[] = $e->getMessage();
+    //                 }
+    //             }
+    //             else
+    //             {
+    //                 $valFirstName = $firstName;
+    //                 $valLastName = $lastName;
+    //                 $valEmail = '';
+    //                 $valPassword = $password;
+    
+    //                 $errors[] = 'Email address already registered';
+    //             }
+    //         }
+    //         else
+    //         {
+    //             $errors[] = "Email address is not valid";
+    //         }
+    //     }
+    //     else
+    //     {
+    //         if(!isset($_POST['first_name']) || empty($_POST['first_name']))
+    //         {
+    //             $errors[] = 'First name is required';
+    //         }
+    //         else
+    //         {
+    //             $valFirstName = $_POST['first_name'];
+    //         }
+    //         if(!isset($_POST['last_name']) || empty($_POST['last_name']))
+    //         {
+    //             $errors[] = 'Last name is required';
+    //         }
+    //         else
+    //         {
+    //             $valLastName = $_POST['last_name'];
+    //         }
+    
+    //         if(!isset($_POST['email']) || empty($_POST['email']))
+    //         {
+    //             $errors[] = 'Email is required';
+    //         }
+    //         else
+    //         {
+    //             $valEmail = $_POST['email'];
+    //         }
+    
+    //         if(!isset($_POST['password']) || empty($_POST['password']))
+    //         {
+    //             $errors[] = 'Password is required';
+    //         }
+    //         else
+    //         {
+    //             $valPassword = $_POST['password'];
+    //         }
+            
+    //     }
+    
+    // }
     
 
 ?>
@@ -76,7 +128,7 @@
 </head>
     <?php include('header.php');?> 
     <div class="main-content">
-        <form class="form-register" method="post" id="form">
+        <form class="form-register" id="form" method="POST" action="<?php echo $_SERVER['PHP_SELF'];?>">
 
             <div class="form-register-with-email">
 
@@ -85,11 +137,31 @@
                     <div class="form-title-row">
                         <h1>Create an account</h1>
                     </div>
-
+                    <?php 
+                        if(isset($errors) && count($errors) > 0)
+                        {
+                            foreach($errors as $error_msg)
+                            {
+                                echo '<div class="alert alert-danger">'.$error_msg.'</div>';
+                            }
+                        }
+                        
+                        if(isset($success))
+                        {
+                            
+                            echo '<div class="alert alert-success">'.$success.'</div>';
+                        }
+                    ?>
                     <div class="form-row">
                         <label>
-                            <span>Name</span>
-                            <input type="text" name="name" >
+                            <span>FirstName</span>
+                            <input type="text" name="first_name" >
+                        </label>
+                    </div>
+                    <div class="form-row">
+                        <label>
+                            <span>LastName</span>
+                            <input type="text" name="last_name" >
                         </label>
                     </div>
 
@@ -104,12 +176,6 @@
                         <label>
                             <span>Password</span>
                             <input type="password" name="password" >
-                        </label>
-                    </div>
-                    <div class="form-row">
-                        <label>
-                            <span>Confirm</span>
-                            <input type="password" name="confirmation"  >
                         </label>
                     </div>
                     <div class="form-row">
@@ -150,7 +216,7 @@
             </div> -->
             
         </form>
-            <script>
+            <!-- <script>
                 let fr = document.querySelector('#form');
                 fr.addEventListener('submit',()=>{
                         swal({
@@ -184,7 +250,7 @@
 
 
             </script>
-    </div>
+    </div> -->
     <?php include('footer.php');?> 
 </body>
 
